@@ -31,8 +31,8 @@ export const LandingPage = ({ query, setQuery, fetchData, navbar }) => {
   
     return (
         <div className="h-screen" style={styles.main}>
-             <div className=" font-thin">
-                Media Library
+             <div className=" font-thin text-slate-200 h-16 py-2 px-5">
+                <span>Media Library</span>
             </div>
            
             <div className=" text-center mt-32">

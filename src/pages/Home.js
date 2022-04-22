@@ -8,13 +8,19 @@ import { LandingPage } from '../components/LandingPage'
 import { Menu } from "../components/Menu";
 
 
+
+
 export default function Home() {
-    // const [red, green, blue] = [69, 111, 225]
+  
     const [data, setData] = useState({})
     const [query, setQuery] = useState('')
     const [photosArray, setPhotosArray] = useState([])
     const [videoData, setVideoData] = useState([])
-    // const [videoFiles, setVideoFiles] = useState([])
+    const [firstVideo, setFirstVideo] = useState({})
+    // const [videoLinks, setVideoLinks] = useState([])
+
+    
+
 
     const API_KEY = "563492ad6f917000010000016d2acc99e5dd4ac3bf721f89844b899e"
 
@@ -30,19 +36,21 @@ export default function Home() {
         // const URL = "https://api.pexels.com/videos/popular"
         const URL = `https://api.pexels.com/videos/popular?per_page=80&key=${API_KEY}`
 
-        axios.get(URL).then(res => setVideoData(res.data.videos))
+        axios.get(URL).then(res => setVideoData(res.videos))
 
-        // setVideoFiles(videoData.map(v => v.video_files))
+        // videoFiles: Arrays inside an Array => [[{},{}],[{},{}]...]
+        // const videoFiles = videoData.map(v => v.video_files)
+        // const videoObjectLink = videoFiles.map(subArray => subArray.map(v => v.link))
+        // const [[firstItem]] = videoFiles
 
+        // setFirstVideo(firstItem)
+        // setVideoLinks(videoObjectLink)
+        console.log(videoData)
     }
-    // videoFiles: Array
-    const videoFiles = videoData.map(v => v.video_files)
-    const videoObject = videoFiles.map(v => v.link)
-    // const HD_Video = videoFiles.filter(vid => vid.quality === 'hd')
-    // console.log(videoFiles)
-    console.log(videoObject)
 
+    
 
+   
     const fetchPopularPhotos = async () => {
         const URL = `https://api.pexels.com/v1/popular?per_page=80&key=${API_KEY}`
 
@@ -56,7 +64,7 @@ export default function Home() {
     useEffect(() => {
         // fetchData()
         fetchPopularVideos()
-        // fetchPopularPhotos()
+        fetchPopularPhotos()
     }, [query])
 
 
@@ -91,8 +99,6 @@ export default function Home() {
     })
 
 
-
-
     const backToTop = () => {
         window.scrollTo({
             top: 0,
@@ -103,23 +109,14 @@ export default function Home() {
 
     return (
         <div >
-            <Header navbar={navbar} query={query} setQuery={setQuery} />
+            {navbar ? <Header navbar={navbar} query={query} setQuery={setQuery} /> : null  }
+            
             <LandingPage query={query} setQuery={setQuery} fetchData={fetchData} navbar={navbar} />
 
             <Menu />
+           
 
-
-            {/* Test Video */}
-
-            {/* {videosArray?.map((video, index) => (
-                <div key={index}>
-                    <video width="320" height="240" controls>
-                        <source src={video.video_files.link} type="video/mp4" />
-                        <source src="movie.ogg" type="video/ogg" />
-                                Your browser does not support the video tag.
-                    </video>
-                </div>
-            ))} */}
+            
 
             {/* Results */}
             <div>
@@ -135,10 +132,10 @@ export default function Home() {
 
             <div
                 onClick={() => backToTop()}
-                className={`${topIcon ? "sticky bottom-2 grid items-center justify-center bg-zinc-200 p-3 mx-auto w-max rounded-full " : null}`}>
+                className={`${topIcon ? "hover:scale-105 cursor-pointer sticky bottom-2 grid items-center justify-center bg-zinc-200 hover:bg-zinc-300 p-3 mx-auto w-max rounded-full " : null}`}>
                 <GrLinkTop
                     fontSize="2rem"
-                    className=" m-auto  cursor-pointer mx-auto text-white"
+                    className=" m-auto"
                 />
 
             </div>
