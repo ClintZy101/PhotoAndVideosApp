@@ -115,9 +115,6 @@ export default function Home() {
 
             <Menu />
            
-
-            
-
             {/* Results */}
             <div>
                 <h1 className="font-semibold text-gray-600 mt-5 text-xl ml-5">Trending Stock Photos</h1>
