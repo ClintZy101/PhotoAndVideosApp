@@ -12,7 +12,7 @@ export const Menu = () => {
                 <span className="hover:text-light cursor-pointer">Videos</span>
             </Link>
             <span className="hover:text-light cursor-pointer">Discover</span>
-            <span className="hover:text-light cursor-pointer">Leaderboard</span>
+            <span className="hover:text-light cursor-pointer">Photographers</span>
 
         </div>
     )

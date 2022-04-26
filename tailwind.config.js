@@ -2,6 +2,11 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  variants: {
+    extend: {
+      translate: ['group-hover'],
+    }
+  },
   theme: {
     // colors:{
     //   'primary': '#141E61',

@@ -1,14 +1,16 @@
-
 import React from 'react'
 import { HiDownload } from 'react-icons/hi'
 import { BsHeart } from 'react-icons/bs'
 
 
+
 export const PhotoGallery = ({ imageArray }) => {
-    const image = imageArray.map((img=> img.src.large))
+    const image = imageArray.map((img => img.src.large))
+    // console.log(image)
     const styles = {
         main: {
             backgroundImage: `url(${image})`,
+            // height: '100vh',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover'
@@ -19,11 +21,17 @@ export const PhotoGallery = ({ imageArray }) => {
     return (
         <div className={responsive}>
             {imageArray.map((img) => (
-                <div key={img.id} className="cursor-pointer mx-auto relative group w-full max-h-96 object-contain">
-                    <p className="absolute top-0 text-slate-100 left-0 group-hover:flex hidden bg-black bg-opacity-30 p-2 w-full">{img.alt}</p>
-                    <img src={img.src.large} alt="" className=" h-full w-full" />
+                <div key={img.id} style={{
+                    backgroundImage: `url(${img.src.large})`,
+                    // height: '100vh',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover'
+                }} className="cursor-pointer mx-auto relative group w-full max-h-96 object-contain">
+                    <p className="absolute top-2 text-slate-100 left-2 group-hover:flex hidden">{img.alt}</p>
+                    {/* <img src={img.src.large} alt="" className=" h-full w-full" /> */}
 
-                    <div className=" absolute group-hover:flex -bottom-10 group-hover:-translate-y-10 delay-300 transition transform  ease-out duration-500 hidden space-x-3 items-center justify-between bg-black w-full bg-opacity-30 p-2">
+                    <div className=" absolute bottom-0 group-hover:flex hidden space-x-3 items-center justify-between bg-black w-full bg-opacity-10 p-2">
                     <a href={img.photographer_url} className="text-slate-200 hover:text-white ">by: {img.photographer}</a>
                     <span className="flex items-center ">
                         <HiDownload fontSize="2rem" className="text-slate-200 hover:text-white" />
@@ -37,4 +45,3 @@ export const PhotoGallery = ({ imageArray }) => {
         </div>
     )
 }
-

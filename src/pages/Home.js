@@ -10,43 +10,40 @@ import { PhotoGallery } from "../components/PhotoGallery";
 import photos from '../json/photos.json'
 
 export default function Home() {
-  
+
     const [data, setData] = useState({})
     const [query, setQuery] = useState('')
-    const [photosArray, setPhotosArray] = useState([])
-    const [videoData, setVideoData] = useState([])
     const [navbar, setNavbar] = useState(false)
     const [topIcon, setTopIcon] = useState(false)
-    const ImageUrlArray = photos.photos.map(photo => photo.src.tiny)
-    const imageArray = photos.photos
-    console.log(imageArray)
+    const [imageArray, setImmageArray] = useState(photos.photos)
+    const [searchWord, setSearchWord] = useState('')
+    // const [recentSearch, setRecentSearch] =useState([])
     
-    const API_KEY = "563492ad6f917000010000016d2acc99e5dd4ac3bf721f89844b899e"
-
-    const fetchData = () => {
+    
+    const fetchData =async () => {
+       
+        const API_KEY = "563492ad6f917000010000016d2acc99e5dd4ac3bf721f89844b899e"
 
         const URL = `https://api.pexels.com/v1/search?query=${query}&per_page=80
   &key=${API_KEY}`
 
-        axios.get(URL).then(res => setData(res))
+        setSearchWord(query)
+
+        await axios.get(URL).then(res => setImmageArray(res.data.photos))
     }
 
-    // const fetchPopularVideos = async () => {
-    //     // const URL = "https://api.pexels.com/videos/popular"
-    //     const URL = `https://api.pexels.com/videos/popular?per_page=80&key=${API_KEY}`
-
-    //    await axios.get(URL).then(res => setVideoData(res.videos))
-
-    //     console.log(videoData)
+    // const addToRecent = () => {
+    //     const recentSearch = []
+    //     recentSearch.push(searchWord)
+    //     localStorage.setItem('recent', JSON.stringify(recentSearch)) 
     // }
 
-    // const fetchPopularPhotos = async () => {
-    //     const URL = `https://api.pexels.com/v1/popular?per_page=80&key=${API_KEY}`
+    // useEffect(()=> {
+    //     addToRecent()
 
-    //     await axios.get(URL).then(res => setPhotosArray(res.data.photos))
-    // }
-
-
+    // const savedRecentSearch = localStorage.getItem('recent')
+    // console.log(savedRecentSearch)
+    // },[searchWord])
 
     //navbar scroll changeBackground function
     const changeBackground = () => {
@@ -63,6 +60,7 @@ export default function Home() {
             setTopIcon(false)
         }
     }
+
 
     useEffect(() => {
         changeBackground();
@@ -83,26 +81,33 @@ export default function Home() {
         })
     }
 
+    const title = searchWord.charAt(0).toUpperCase() + searchWord.slice(1);
+
+    
     return (
         <div >
-            {navbar ? <Header navbar={navbar} query={query} setQuery={setQuery} /> : null  }
-            
+            {navbar ? <Header navbar={navbar} query={query} setQuery={setQuery} fetchData={fetchData} /> : null}
+
+
             <LandingPage query={query} setQuery={setQuery} fetchData={fetchData} navbar={navbar} />
 
             <Menu />
-           
+
             {/* Image Gallery Trending Photos */}
             <div>
-                <h1 className="font-semibold text-gray-600 mt-5 text-xl ml-5">Trending Stock Photos</h1>
-                <PhotoGallery imageArray={imageArray} />
+                {searchWord ? 
+                (<h1 className="font-semibold text-gray-600 mt-5 text-xl ml-5">{title} Photos</h1>) 
+                : (<h1 className="font-semibold text-gray-600 mt-5 text-xl ml-5">Trending Stock Photos</h1>)}
+                {imageArray.length === 0 ? (<div className="mx-auto text-center font-bold text-zinc-500 mt-5"> Ooops... No Image Available. Please try another search keyword.</div>) : <PhotoGallery imageArray={imageArray} /> }
+                
             </div>
 
             <div
                 onClick={() => backToTop()}
-                className={`${topIcon ? "hover:scale-105 cursor-pointer sticky bottom-2 grid items-center justify-center bg-zinc-200 hover:bg-zinc-300 p-3 mx-auto w-max rounded-full " : null}`}>
+                className={`${topIcon ? "hover:scale-105 cursor-pointer sticky bottom-2 grid items-center justify-center bg-zinc-400 hover:bg-zinc-300 p-3 mx-auto w-max rounded-full " : null}`}>
                 <GrLinkTop
                     fontSize="2rem"
-                    className=" m-auto"
+                    className=" m-auto "
                 />
 
             </div>

@@ -14,6 +14,8 @@ export const Header = ({ navbar, query, setQuery }) => {
                 <div className=" font-thin hidden sm:flex">
                     Media Library
             </div>
+            
+            {/* Search Input Form */}
                 <form className='sm:w-[500px] w-5/6 h-10 mx-auto   bg-white rounded-md flex'
                 // onSubmit={()=>submitData()}
                 >
