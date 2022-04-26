@@ -3,7 +3,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { GrLinkTop } from 'react-icons/gr'
 import { Header } from "../components/Header";
-
 import { LandingPage } from '../components/LandingPage'
 import { Menu } from "../components/Menu";
 import { PhotoGallery } from "../components/PhotoGallery";
@@ -11,25 +10,31 @@ import photos from '../json/photos.json'
 
 export default function Home() {
 
-    const [data, setData] = useState({})
+    // const [data, setData] = useState({})
     const [query, setQuery] = useState('')
     const [navbar, setNavbar] = useState(false)
     const [topIcon, setTopIcon] = useState(false)
     const [imageArray, setImmageArray] = useState(photos.photos)
     const [searchWord, setSearchWord] = useState('')
+    const [hasError, setHasError] = useState(false)
     // const [recentSearch, setRecentSearch] =useState([])
-    
-    
-    const fetchData =async () => {
-       
-        const API_KEY = "563492ad6f917000010000016d2acc99e5dd4ac3bf721f89844b899e"
 
-        const URL = `https://api.pexels.com/v1/search?query=${query}&per_page=80
-  &key=${API_KEY}`
 
-        setSearchWord(query)
+    const fetchData = async () => {
+        try {
+            const API_KEY = "563492ad6f917000010000016d2acc99e5dd4ac3bf721f89844b899e"
 
-        await axios.get(URL).then(res => setImmageArray(res.data.photos))
+            const URL = `https://api.pexels.com/v1/search?query=${query}&per_page=80&key=${API_KEY}`
+
+            setSearchWord(query)
+
+            await axios.get(URL).then(res => setImmageArray(res.data.photos))
+
+        } catch (error) {
+            setHasError(true)
+            console.log(error);
+        }
+
     }
 
     // const addToRecent = () => {
@@ -83,7 +88,7 @@ export default function Home() {
 
     const title = searchWord.charAt(0).toUpperCase() + searchWord.slice(1);
 
-    
+
     return (
         <div >
             {navbar ? <Header navbar={navbar} query={query} setQuery={setQuery} fetchData={fetchData} /> : null}
@@ -94,13 +99,15 @@ export default function Home() {
             <Menu />
 
             {/* Image Gallery Trending Photos */}
-            <div>
-                {searchWord ? 
-                (<h1 className="font-semibold text-gray-600 mt-5 text-xl ml-5">{title} Photos</h1>) 
-                : (<h1 className="font-semibold text-gray-600 mt-5 text-xl ml-5">Trending Stock Photos</h1>)}
-                {imageArray.length === 0 ? (<div className="mx-auto text-center font-bold text-zinc-500 mt-5"> Ooops... No Image Available. Please try another search keyword.</div>) : <PhotoGallery imageArray={imageArray} /> }
-                
-            </div>
+            {hasError ? <div>Oops... Something went wrong!</div> :
+                <div>
+                    {searchWord ?
+                        (<h1 className="font-semibold text-gray-600 mt-5 text-xl ml-5">{title} Photos</h1>)
+                        : (<h1 className="font-semibold text-gray-600 mt-5 text-xl ml-5">Trending Stock Photos</h1>)}
+                    {imageArray.length === 0 ? (<div className="mx-auto text-center font-bold text-zinc-500 mt-5"> Ooops... No Image Available. Please try another search keyword.</div>) : <PhotoGallery imageArray={imageArray} />}
+                </div>
+            }
+
 
             <div
                 onClick={() => backToTop()}
