@@ -6,16 +6,17 @@ import { BsHeart } from 'react-icons/bs'
 
 export const PhotoGallery = ({ imageArray }) => {
     const image = imageArray.map((img=> img.src.large))
-    const styles = {
-        main: {
-            backgroundImage: `url(${image})`,
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
-        }
-    }
+    // const styles = {
+    //     main: {
+    //         backgroundImage: `url(${image})`,
+    //         backgroundPosition: 'center',
+    //         backgroundRepeat: 'no-repeat',
+    //         backgroundSize: 'cover'
+    //     }
+    // }
     
     const responsive = "mt-5 px-3 grid gap-3 grid-cols-1  sm:grid-cols-2 lg:grid-cols-3"
+
     return (
         <div className={responsive}>
             {imageArray.map((img) => (

@@ -15,10 +15,13 @@ export default function Home() {
     const [navbar, setNavbar] = useState(false)
     const [topIcon, setTopIcon] = useState(false)
     const [imageArray, setImmageArray] = useState(photos.photos)
-    const [searchWord, setSearchWord] = useState('')
     const [hasError, setHasError] = useState(false)
-    // const [recentSearch, setRecentSearch] =useState([])
-
+    const [searchWord, setSearchWord] = useState('')
+    // const [recentSearch, setRecentSearch] = useState([])
+    const title = searchWord.charAt(0).toUpperCase() + searchWord.slice(1);
+    const savedRecentSearch = localStorage.getItem('recent')
+    const displayedSearch =  JSON.parse(savedRecentSearch)
+    console.log(displayedSearch)
 
     const fetchData = async () => {
         try {
@@ -38,16 +41,21 @@ export default function Home() {
     }
 
     // const addToRecent = () => {
-    //     const recentSearch = []
-    //     recentSearch.push(searchWord)
-    //     localStorage.setItem('recent', JSON.stringify(recentSearch)) 
+
+    //     if(savedRecentSearch){
+    //         let updatedSearch =  recentSearch.push(searchWord)
+    //         localStorage.setItem('recent', JSON.stringify(updatedSearch)
+    //         )
+    //     }
+    //     else {
+    //         localStorage.setItem('recent', JSON.stringify(recentSearch))
+    //     } 
+
+    //     console.log(recentSearch) 
     // }
 
     // useEffect(()=> {
     //     addToRecent()
-
-    // const savedRecentSearch = localStorage.getItem('recent')
-    // console.log(savedRecentSearch)
     // },[searchWord])
 
     //navbar scroll changeBackground function
@@ -65,6 +73,13 @@ export default function Home() {
             setTopIcon(false)
         }
     }
+    const backToTop = () => {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        })
+    }
 
 
     useEffect(() => {
@@ -77,24 +92,12 @@ export default function Home() {
         window.addEventListener("scroll", scrollToTop);
     })
 
-
-    const backToTop = () => {
-        window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: "smooth"
-        })
-    }
-
-    const title = searchWord.charAt(0).toUpperCase() + searchWord.slice(1);
-
-
     return (
         <div >
             {navbar ? <Header navbar={navbar} query={query} setQuery={setQuery} fetchData={fetchData} /> : null}
 
 
-            <LandingPage query={query} setQuery={setQuery} fetchData={fetchData} navbar={navbar} />
+            <LandingPage query={query} setQuery={setQuery} fetchData={fetchData}  navbar={navbar} savedRecentSearch={savedRecentSearch} />
 
             <Menu />
 

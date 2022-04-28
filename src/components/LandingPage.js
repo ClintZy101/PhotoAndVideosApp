@@ -5,7 +5,7 @@ import { HiMenuAlt2 } from 'react-icons/hi'
 
 import { SearchBar } from './SearchBar';
 
-export const LandingPage = ({ query, setQuery, fetchData }) => {
+export const LandingPage = ({ query, setQuery, fetchData, addToRecent, savedRecentSearch }) => {
 
 
     const bgImage = "https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
@@ -45,7 +45,7 @@ export const LandingPage = ({ query, setQuery, fetchData }) => {
                 <div className="font-extrabold text-4xl text-white ">
                     Start Searching for free Photos and Videos!
                  </div >
-                <SearchBar query={query} setQuery={setQuery} fetchData={fetchData}/>
+                <SearchBar query={query} setQuery={setQuery} fetchData={fetchData} addToRecent={addToRecent} savedRecentSearch={savedRecentSearch} />
                 <div className="text-white">Suggested: sushi, indian food,  meat,  restaurant , tomato,  food,  more</div>
             </div>
 
