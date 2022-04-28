@@ -10,18 +10,17 @@ import photos from '../json/photos.json'
 
 export default function Home() {
 
-    // const [data, setData] = useState({})
     const [query, setQuery] = useState('')
     const [navbar, setNavbar] = useState(false)
     const [topIcon, setTopIcon] = useState(false)
-    const [imageArray, setImmageArray] = useState(photos.photos)
+    const [imageArray, setImageArray] = useState(photos.photos)
     const [hasError, setHasError] = useState(false)
     const [searchWord, setSearchWord] = useState('')
     // const [recentSearch, setRecentSearch] = useState([])
     const title = searchWord.charAt(0).toUpperCase() + searchWord.slice(1);
     const savedRecentSearch = localStorage.getItem('recent')
     const displayedSearch =  JSON.parse(savedRecentSearch)
-    console.log(displayedSearch)
+    // console.log(displayedSearch)
 
     const fetchData = async () => {
         try {
@@ -31,7 +30,8 @@ export default function Home() {
 
             setSearchWord(query)
 
-            await axios.get(URL).then(res => setImmageArray(res.data.photos))
+            await axios.get(URL).then(res => setImageArray(res.data.photos))
+            setQuery("")
 
         } catch (error) {
             setHasError(true)
@@ -92,12 +92,19 @@ export default function Home() {
         window.addEventListener("scroll", scrollToTop);
     })
 
+    // useEffect(()=> {
+    //     console.log(query)
+    // }, [query])
+
     return (
         <div >
             {navbar ? <Header navbar={navbar} query={query} setQuery={setQuery} fetchData={fetchData} /> : null}
 
 
-            <LandingPage query={query} setQuery={setQuery} fetchData={fetchData}  navbar={navbar} savedRecentSearch={savedRecentSearch} />
+            <LandingPage query={query} setQuery={setQuery} fetchData={fetchData}  navbar={navbar} savedRecentSearch={savedRecentSearch} setImageArray={setImageArray}
+            setSearchWord={setSearchWord}
+            setHasError={setHasError}
+            />
 
             <Menu />
 
