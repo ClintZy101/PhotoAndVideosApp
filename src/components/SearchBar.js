@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 
-export const SearchBar = ({ query, setQuery, fetchData, addToRecent, savedRecentSearch, setImageArray, setHasError, setSearchWord }) => {
+export const SearchBar = ({clicked, query, setQuery, fetchData, addToRecent, savedRecentSearch, setImageArray, setHasError, setSearchWord }) => {
 
     const [focused, setFocused] = useState(false);
     const onFocus = () => setFocused(true);
@@ -50,7 +50,7 @@ export const SearchBar = ({ query, setQuery, fetchData, addToRecent, savedRecent
                 <input
                     required
                     onFocus={onFocus}
-                    // onBlur={onBlur}
+                    onBlur={onBlur}
                     type="text"
                     placeholder="Search for free Photos & Videos"
                     className=" placeholder:text-lg placeholder:font-semibold outline-none rounded-md w-full h-full px-3"
@@ -63,7 +63,7 @@ export const SearchBar = ({ query, setQuery, fetchData, addToRecent, savedRecent
                     onClick={submitData}
                 />
             </form>
-            <div className={`${focused ? 'flex bg-white -mt-2 z-50 rounded-md shadow-lg' : 'hidden'}`}>
+            <div className={`${focused && 'flex bg-white -mt-2 z-50 rounded-md shadow-lg'} ${!focused && 'hidden'}`}>
                 <div className="p-2 w-full  border-t shadow-innertext-zinc-600">
 
                     <h2 className="font-semibold">Trending Topics</h2>
